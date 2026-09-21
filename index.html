@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>mikemikemekemeke のゲーム置き場</title>
+<meta name="description" content="趣味で作っているブラウザゲームの置き場です。スマホのブラウザでそのまま遊べます。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="mikemikemekemeke のゲーム置き場">
+<meta property="og:description" content="集中クエストほか、趣味で作っているブラウザゲームです。スマホのブラウザでそのまま遊べます。">
+<meta property="og:url" content="https://mikemikemekemeke.github.io/">
+<meta property="og:image" content="https://mikemikemekemeke.github.io/icon-512.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mikemikemekemeke.github.io/icon-512.png">
+<link rel="icon" href="icon-512.png">
+<link rel="apple-touch-icon" href="icon-512.png">
+<style>
+  :root {
+    --bg: #ffffff;
+    --text: #1f2328;
+    --sub: #5f6773;
+    --line: #e3e6ec;
+    --tile: #fafbfc;
+    --accent: #7b6ad0;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Meiryo UI", "Meiryo", "Hiragino Sans", "Noto Sans JP", sans-serif;
+    line-height: 1.7;
+    -webkit-tap-highlight-color: transparent;
+  }
+  a { text-decoration: none; color: inherit; }
+
+  .wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 28px 16px 44px;
+  }
+
+  /* 見出し */
+  header {
+    margin-bottom: 22px;
+  }
+  header h1 {
+    font-size: 1.25rem;
+    margin: 0 0 4px;
+    letter-spacing: 0.02em;
+  }
+  header p {
+    margin: 0;
+    color: var(--sub);
+    font-size: 0.9rem;
+  }
+
+  /* 主役のタイル */
+  .hero {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: linear-gradient(135deg, #f3f0ff 0%, #eef5fd 100%);
+    border: 1px solid #ded7f5;
+    border-radius: 16px;
+    padding: 18px;
+    margin-bottom: 10px;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .hero:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(123, 106, 208, 0.18);
+  }
+  .hero img {
+    width: 92px;
+    height: 92px;
+    border-radius: 14px;
+    flex-shrink: 0;
+    display: block;
+  }
+  .hero .body { min-width: 0; }
+  .hero .badge {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: bold;
+    border-radius: 4px;
+    padding: 1px 8px;
+    margin-bottom: 5px;
+    letter-spacing: 0.06em;
+  }
+  .hero h2 {
+    font-size: 1.22rem;
+    margin: 0 0 3px;
+  }
+  .hero p {
+    margin: 0 0 9px;
+    font-size: 0.88rem;
+    color: var(--sub);
+  }
+  .hero .play {
+    display: inline-block;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: bold;
+    border-radius: 999px;
+    padding: 6px 20px;
+  }
+
+  /* 小さいタイル */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  .tile {
+    background: var(--tile);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+  }
+  .tile:hover {
+    transform: translateY(-2px);
+    border-color: var(--mark);
+    box-shadow: 0 5px 14px rgba(31, 35, 40, 0.09);
+  }
+  .tile .mark {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    background: var(--mark);
+    color: #fff;
+    font-size: 1.24rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 9px;
+  }
+  .tile h3 {
+    font-size: 1rem;
+    margin: 0 0 2px;
+  }
+  .tile .kana {
+    font-size: 0.7rem;
+    color: var(--sub);
+    font-weight: normal;
+    margin-left: 5px;
+  }
+  .tile p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: var(--sub);
+    line-height: 1.6;
+  }
+
+  /* 色 */
+  .t-tsuchioto { --mark: #4a6580; }
+  .t-matsuri   { --mark: #cf5a4e; }
+  .t-hamekeshi { --mark: #7b5fc0; }
+  .t-mamoribito{ --mark: #3f8f6b; }
+
+  footer {
+    margin-top: 30px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+    font-size: 0.78rem;
+    color: var(--sub);
+  }
+  footer a { color: var(--sub); }
+  footer a:hover { text-decoration: underline; }
+  footer .links {
+    margin-bottom: 8px;
+  }
+  footer .links a { margin-right: 14px; }
+
+  @media (max-width: 380px) {
+    .hero { gap: 13px; padding: 15px; }
+    .hero img { width: 76px; height: 76px; }
+    .hero h2 { font-size: 1.1rem; }
+    .grid { gap: 8px; }
+    .tile { padding: 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>mikemikemekemeke のゲーム置き場</h1>
+    <p>趣味で作っているブラウザゲームです。スマホのブラウザでそのまま遊べます。</p>
+  </header>
+
+  <main>
+
+    <a class="hero" href="https://mikemikemekemeke.github.io/shuchu-quest/">
+      <img src="icon-512.png" alt="集中クエスト">
+      <div class="body">
+        <span class="badge">おすすめ</span>
+        <h2>集中クエスト</h2>
+        <p>ポモドーロタイマーと放置ゲームを組み合わせました。集中した時間が、そのまま冒険の時間になります。</p>
+        <span class="play">遊ぶ</span>
+      </div>
+    </a>
+
+    <div class="grid">
+
+      <a class="tile t-tsuchioto" href="https://mikemikemekemeke.github.io/tsuchioto/">
+        <span class="mark">鎚</span>
+        <h3>鎚音<span class="kana">つちおと</span></h3>
+        <p>鍛冶師として武器を打ちます。素材を集めるための冒険にも出かけます。</p>
+      </a>
+
+      <a class="tile t-mamoribito" href="https://mikemikemekemeke.github.io/mamoribito/">
+        <span class="mark">守</span>
+        <h3>まもりびと</h3>
+        <p>タワーディフェンスです。落ちてくる魔物を撃ちおとして村を守ります。</p>
+      </a>
+
+      <a class="tile t-hamekeshi" href="https://mikemikemekemeke.github.io/hamekeshi/">
+        <span class="mark">消</span>
+        <h3>はめけし</h3>
+        <p>ブロックを置いていくパズルです。縦か横が1列そろうと消えます。</p>
+      </a>
+
+      <a class="tile t-matsuri" href="https://mikemikemekemeke.github.io/tap_matsuri/">
+        <span class="mark">祭</span>
+        <h3>タップ祭<span class="kana">たっぷまつり</span></h3>
+        <p>ひたすらタップするゲームです。いちばん最初に作りました。</p>
+      </a>
+
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="links">
+      <a href="https://github.com/mikemikemekemeke">GitHub</a>
+      <a href="privacy.html">プライバシーポリシー</a>
+    </div>
+    © 2026 mikemikemekemeke
+  </footer>
+
+</div>
+</body>
+</html>
